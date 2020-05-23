@@ -4,5 +4,5 @@ import { Log } from './src/global/middleware/log.middleware.ts'
 export const settings: AppSettings = {
     areas: [BooksArea],
     middlewares: [Log],
-    logging: false
+    logging: true
 };
