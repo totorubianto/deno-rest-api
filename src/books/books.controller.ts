@@ -1,39 +1,28 @@
 
-import { Controller, Response, ServerRequest, ForbiddenError, Get, QueryParam, Cookie, Req, Res, Post, Body, Param } from 'https://deno.land/x/alosaur/src/mod.ts';
+import { Controller, Response, ServerRequest, ForbiddenError, Get, QueryParam, Cookie, Req, Res, Post, Body, Param, InternalServerError } from 'https://deno.land/x/alosaur/src/mod.ts';
+import { BooksModel } from './books.model.ts'
 @Controller('/books')
 export class BooksController {
-    @Get('/text')
-    text(
-        @QueryParam('name') name: string,
-        @QueryParam('test') test: string,
-        @Cookie('username') username: string
+    constructor(
+        private booksModel: BooksModel
+    ) { }
+
+    @Post('/create')
+    async create(
     ) {
-        return `Hello world, ${name} ${test} ${username}`;
+        const data = await this.booksModel.create();
+        return data;
     }
 
-    @Get('/json')
-    json(
+    @Get('/list')
+    async json(
         @Req() request: ServerRequest,
         @Res() response: Response,
         @QueryParam('name') name: string
     ) {
-        return response;
-    }
-
-    @Get('/error')
-    error() {
-        throw new ForbiddenError('error');
-    }
-
-    @Get('/query')
-    query(@QueryParam("a") a: string, @QueryParam("b") b: string, @QueryParam("c") c: string) {
-        return { a, b, c };
-    }
-
-    @Get('/test')
-    gerTests() {
-        return 'test';
-    }
+        const data = await this.booksModel.getBook();
+        return data;
+    }   
 
     @Get('/test/:id')
     gerParamId(@Param('id') id: string) {

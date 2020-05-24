@@ -12,4 +12,4 @@ WORKDIR /usr/src/app
 COPY . /usr/src/app
 
 EXPOSE $PORT
-CMD ["deno", "run","--allow-read", "--allow-net", "--allow-env", "--config", "tsconfig.json", "index.ts"]
+CMD ["deno", "run","--allow-read", "--allow-net", "--allow-env", "--config", "tsconfig.json", "./src/index.ts"]
