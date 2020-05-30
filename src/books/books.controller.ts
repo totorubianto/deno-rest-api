@@ -9,38 +9,27 @@ export class BooksController {
 
     @Post('/create')
     async create(
+        @Body() body:any
     ) {
-        const data = await this.booksModel.create();
+        const data = await this.booksModel.create(body);
         return data;
     }
 
     @Get('/list')
-    async json(
-        @Req() request: ServerRequest,
-        @Res() response: Response,
-        @QueryParam('name') name: string
-    ) {
-        const data = await this.booksModel.getBook();
+    async list(){
+        const data = await this.booksModel.list();
         return data;
-    }   
-
-    @Get('/test/:id')
-    gerParamId(@Param('id') id: string) {
-        return id;
     }
 
-    @Get('/test/:id/:name')
-    gerParamIdName(@Param('id') id: string, @Param('name') name: string) {
-        return `${id} ${name}`;
+    @Post('/update/:id')
+    async update(@Param('id') id:string, @Body() body:any){
+        const data = await this.booksModel.update(id, body);
+        return data;
     }
 
-    @Get('/test/:id/:name/detail')
-    gerParamIdNameDetail(@Param('id') id: string, @Param('name') name: string) {
-        return `${id} ${name} this is details page`;
-    }
-
-    @Post('/post')
-    post(@Body() body: any, @QueryParam('name') name: string) {
-        return body;
+    @Get('/delete/:id')
+    async delete(@Param('id') id:string){
+        const data = await this.booksModel.delete(id);
+        return data;
     }
 }
